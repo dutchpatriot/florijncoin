@@ -1,0 +1,9 @@
+Building FooCoin
+
+See doc/readme-qt.rst for instructions on building flccoin-qt,
+the intended-for-end-users, nice-graphical-interface, reference
+implementation of FooCoin.
+
+See doc/build-*.txt for instructions on building flccoin,
+the intended-for-services, no-graphical-interface, reference
+implementation of FooCoin.

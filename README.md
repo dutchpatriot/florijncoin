@@ -12,3 +12,7 @@ Linux dependencies:
 sudo apt-get update && sudo apt-get upgrade -y && sudo apt-get install libcurl4-openssl-dev build-essential libboost-dev libdb48-dev openssl libdb++-dev git qt-sdk
 
 # florijncoin
+start testnet
+
+./florijncoind -testnet -connect=iptoconnect -listen=1 -testnet=1 -testnet_config=1 &
+

@@ -1,5 +1,5 @@
 // Copyright (c) 2010 Satoshi Nakamoto
-// Copyright (c) 2009-2012 The Bitcoin developers
+// Copyright (c) 2009-2012 The FlorijnCoin developers
 // Copyright (c) 2011-2012 The Litecoin Developers
 // Copyright (c) 2013 adam m.
 // Distributed under the MIT/X11 software license, see the accompanying
@@ -380,7 +380,7 @@ Value setgenerate(const Array& params, bool fHelp)
     }
     mapArgs["-gen"] = (fGenerate ? "1" : "0");
 
-    GenerateBitcoins(fGenerate, pwalletMain);
+    GenerateFlorijnCoins(fGenerate, pwalletMain);
     return Value::null;
 }
 
@@ -477,11 +477,11 @@ Value getnewaddress(const Array& params, bool fHelp)
 
     pwalletMain->SetAddressBookName(keyID, strAccount);
 
-    return CBitcoinAddress(keyID).ToString();
+    return CFlorijnCoinAddress(keyID).ToString();
 }
 
 
-CBitcoinAddress GetAccountAddress(string strAccount, bool bForceNew=false)
+CFlorijnCoinAddress GetAccountAddress(string strAccount, bool bForceNew=false)
 {
     CWalletDB walletdb(pwalletMain->strWalletFile);
 
@@ -516,7 +516,7 @@ CBitcoinAddress GetAccountAddress(string strAccount, bool bForceNew=false)
         walletdb.WriteAccount(strAccount, account);
     }
 
-    return CBitcoinAddress(account.vchPubKey.GetID());
+    return CFlorijnCoinAddress(account.vchPubKey.GetID());
 }
 
 Value getaccountaddress(const Array& params, bool fHelp)
@@ -545,7 +545,7 @@ Value setaccount(const Array& params, bool fHelp)
             "setaccount <florijncoin address> <account>\n"
             "Sets the account associated with the given address.");
 
-    CBitcoinAddress address(params[0].get_str());
+    CFlorijnCoinAddress address(params[0].get_str());
     if (!address.IsValid())
         throw JSONRPCError(-5, "Invalid florijncoin address");
 
@@ -575,7 +575,7 @@ Value getaccount(const Array& params, bool fHelp)
             "getaccount <florijncoin address>\n"
             "Returns the account associated with the given address.");
 
-    CBitcoinAddress address(params[0].get_str());
+    CFlorijnCoinAddress address(params[0].get_str());
     if (!address.IsValid())
         throw JSONRPCError(-5, "Invalid florijncoin address");
 
@@ -598,9 +598,9 @@ Value getaddressesbyaccount(const Array& params, bool fHelp)
 
     // Find all addresses that have the given account
     Array ret;
-    BOOST_FOREACH(const PAIRTYPE(CBitcoinAddress, string)& item, pwalletMain->mapAddressBook)
+    BOOST_FOREACH(const PAIRTYPE(CFlorijnCoinAddress, string)& item, pwalletMain->mapAddressBook)
     {
-        const CBitcoinAddress& address = item.first;
+        const CFlorijnCoinAddress& address = item.first;
         const string& strName = item.second;
         if (strName == strAccount)
             ret.push_back(address.ToString());
@@ -648,7 +648,7 @@ Value sendtoaddress(const Array& params, bool fHelp)
             "<amount> is a real and is rounded to the nearest 0.00000001"
             + HelpRequiringPassphrase());
 
-    CBitcoinAddress address(params[0].get_str());
+    CFlorijnCoinAddress address(params[0].get_str());
     if (!address.IsValid())
         throw JSONRPCError(-5, "Invalid florijncoin address");
 
@@ -684,7 +684,7 @@ Value signmessage(const Array& params, bool fHelp)
     string strAddress = params[0].get_str();
     string strMessage = params[1].get_str();
 
-    CBitcoinAddress addr(strAddress);
+    CFlorijnCoinAddress addr(strAddress);
     if (!addr.IsValid())
         throw JSONRPCError(-3, "Invalid address");
 
@@ -718,7 +718,7 @@ Value verifymessage(const Array& params, bool fHelp)
     string strSign     = params[1].get_str();
     string strMessage  = params[2].get_str();
 
-    CBitcoinAddress addr(strAddress);
+    CFlorijnCoinAddress addr(strAddress);
     if (!addr.IsValid())
         throw JSONRPCError(-3, "Invalid address");
 
@@ -752,7 +752,7 @@ Value getreceivedbyaddress(const Array& params, bool fHelp)
             "Returns the total amount received by <florijncoin address> in transactions with at least [minconf] confirmations.");
 
     // florijncoin address
-    CBitcoinAddress address = CBitcoinAddress(params[0].get_str());
+    CFlorijnCoinAddress address = CFlorijnCoinAddress(params[0].get_str());
     CScript scriptPubKey;
     if (!address.IsValid())
         throw JSONRPCError(-5, "Invalid florijncoin address");
@@ -974,7 +974,7 @@ Value sendfrom(const Array& params, bool fHelp)
             + HelpRequiringPassphrase());
 
     string strAccount = AccountFromValue(params[0]);
-    CBitcoinAddress address(params[1].get_str());
+    CFlorijnCoinAddress address(params[1].get_str());
     if (!address.IsValid())
         throw JSONRPCError(-5, "Invalid florijncoin address");
     int64 nAmount = AmountFromValue(params[2]);
@@ -1024,13 +1024,13 @@ Value sendmany(const Array& params, bool fHelp)
     if (params.size() > 3 && params[3].type() != null_type && !params[3].get_str().empty())
         wtx.mapValue["comment"] = params[3].get_str();
 
-    set<CBitcoinAddress> setAddress;
+    set<CFlorijnCoinAddress> setAddress;
     vector<pair<CScript, int64> > vecSend;
 
     int64 totalAmount = 0;
     BOOST_FOREACH(const Pair& s, sendTo)
     {
-        CBitcoinAddress address(s.name_);
+        CFlorijnCoinAddress address(s.name_);
         if (!address.IsValid())
             throw JSONRPCError(-5, string("Invalid florijncoin address:")+s.name_);
 
@@ -1100,7 +1100,7 @@ Value addmultisigaddress(const Array& params, bool fHelp)
         const std::string& ks = keys[i].get_str();
 
         // Case 1: florijncoin address and we have full public key:
-        CBitcoinAddress address(ks);
+        CFlorijnCoinAddress address(ks);
         if (address.IsValid())
         {
             CKeyID keyID;
@@ -1135,7 +1135,7 @@ Value addmultisigaddress(const Array& params, bool fHelp)
     pwalletMain->AddCScript(inner);
 
     pwalletMain->SetAddressBookName(innerID, strAccount);
-    return CBitcoinAddress(innerID).ToString();
+    return CFlorijnCoinAddress(innerID).ToString();
 }
 
 
@@ -1163,7 +1163,7 @@ Value ListReceived(const Array& params, bool fByAccounts)
         fIncludeEmpty = params[1].get_bool();
 
     // Tally
-    map<CBitcoinAddress, tallyitem> mapTally;
+    map<CFlorijnCoinAddress, tallyitem> mapTally;
     for (map<uint256, CWalletTx>::iterator it = pwalletMain->mapWallet.begin(); it != pwalletMain->mapWallet.end(); ++it)
     {
         const CWalletTx& wtx = (*it).second;
@@ -1190,11 +1190,11 @@ Value ListReceived(const Array& params, bool fByAccounts)
     // Reply
     Array ret;
     map<string, tallyitem> mapAccountTally;
-    BOOST_FOREACH(const PAIRTYPE(CBitcoinAddress, string)& item, pwalletMain->mapAddressBook)
+    BOOST_FOREACH(const PAIRTYPE(CFlorijnCoinAddress, string)& item, pwalletMain->mapAddressBook)
     {
-        const CBitcoinAddress& address = item.first;
+        const CFlorijnCoinAddress& address = item.first;
         const string& strAccount = item.second;
-        map<CBitcoinAddress, tallyitem>::iterator it = mapTally.find(address);
+        map<CFlorijnCoinAddress, tallyitem>::iterator it = mapTally.find(address);
         if (it == mapTally.end() && !fIncludeEmpty)
             continue;
 
@@ -1309,7 +1309,7 @@ void ListTransactions(const CWalletTx& wtx, const string& strAccount, int nMinDe
         {
             Object entry;
             entry.push_back(Pair("account", strSentAccount));
-            entry.push_back(Pair("address", CBitcoinAddress(s.first).ToString()));
+            entry.push_back(Pair("address", CFlorijnCoinAddress(s.first).ToString()));
             entry.push_back(Pair("category", "send"));
             entry.push_back(Pair("amount", ValueFromAmount(-s.second)));
             entry.push_back(Pair("fee", ValueFromAmount(-nFee)));
@@ -1331,7 +1331,7 @@ void ListTransactions(const CWalletTx& wtx, const string& strAccount, int nMinDe
             {
                 Object entry;
                 entry.push_back(Pair("account", account));
-                entry.push_back(Pair("address", CBitcoinAddress(r.first).ToString()));
+                entry.push_back(Pair("address", CFlorijnCoinAddress(r.first).ToString()));
                 entry.push_back(Pair("category", "receive"));
                 entry.push_back(Pair("amount", ValueFromAmount(r.second)));
                 if (fLong)
@@ -1821,7 +1821,7 @@ public:
         obj.push_back(Pair("script", GetTxnOutputType(whichType)));
         Array a;
         BOOST_FOREACH(const CTxDestination& addr, addresses)
-            a.push_back(CBitcoinAddress(addr).ToString());
+            a.push_back(CFlorijnCoinAddress(addr).ToString());
         obj.push_back(Pair("addresses", a));
         if (whichType == TX_MULTISIG)
             obj.push_back(Pair("sigsrequired", nRequired));
@@ -1836,7 +1836,7 @@ Value validateaddress(const Array& params, bool fHelp)
             "validateaddress <florijncoin address>\n"
             "Return information about <florijncoin address>.");
 
-    CBitcoinAddress address(params[0].get_str());
+    CFlorijnCoinAddress address(params[0].get_str());
     bool isValid = address.IsValid();
 
     Object ret;

@@ -1,4 +1,4 @@
-// Copyright (c) 2009-2012 Bitcoin Developers
+// Copyright (c) 2009-2012 FlorijnCoin Developers
 // Copyright (c) 2011-2012 Litecoin Developers
 // Distributed under the MIT/X11 software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
@@ -44,7 +44,7 @@ Value importprivkey(const Array& params, bool fHelp)
     string strLabel = "";
     if (params.size() > 1)
         strLabel = params[1].get_str();
-    CBitcoinSecret vchSecret;
+    CFlorijnCoinSecret vchSecret;
     bool fGood = vchSecret.SetString(strSecret);
 
     if (!fGood) throw JSONRPCError(-5,"Invalid private key");
@@ -78,7 +78,7 @@ Value dumpprivkey(const Array& params, bool fHelp)
 	    "Reveals the private key corresponding to <florijncoin address>.");
 
     string strAddress = params[0].get_str();
-    CBitcoinAddress address;
+    CFlorijnCoinAddress address;
     if (!address.SetString(strAddress))
 	throw JSONRPCError(-5, "Invalid florijncoin address");
     CKeyID keyID;
@@ -88,5 +88,5 @@ Value dumpprivkey(const Array& params, bool fHelp)
     bool fCompressed;
     if (!pwalletMain->GetSecret(keyID, vchSecret, fCompressed))
         throw JSONRPCError(-4,"Private key for address " + strAddress + " is not known");
-    return CBitcoinSecret(vchSecret, fCompressed).ToString();
+    return CFlorijnCoinSecret(vchSecret, fCompressed).ToString();
 }

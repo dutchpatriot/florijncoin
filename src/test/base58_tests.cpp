@@ -18,15 +18,15 @@ BOOST_AUTO_TEST_SUITE(base58_tests)
     // bool operator< (const CBase58Data& b58) const
     // bool operator> (const CBase58Data& b58) const
 
-// CBitcoinAddress
+// CFlorijnCoinAddress
     // bool SetHash160(const uint160& hash160)
     // bool SetPubKey(const std::vector<unsigned char>& vchPubKey)
     // bool IsValid() const
-    // CBitcoinAddress()
-    // CBitcoinAddress(uint160 hash160In)
-    // CBitcoinAddress(const std::vector<unsigned char>& vchPubKey)
-    // CBitcoinAddress(const std::string& strAddress)
-    // CBitcoinAddress(const char* pszAddress)
+    // CFlorijnCoinAddress()
+    // CFlorijnCoinAddress(uint160 hash160In)
+    // CFlorijnCoinAddress(const std::vector<unsigned char>& vchPubKey)
+    // CFlorijnCoinAddress(const std::string& strAddress)
+    // CFlorijnCoinAddress(const char* pszAddress)
     // uint160 GetHash160() const
 
 #define U(x) (reinterpret_cast<const unsigned char*>(x))
@@ -54,7 +54,7 @@ const char *vstrOut[] = {
 "a3gV",
 "aPEr",
 "2cFupjhnEsSn59qHXstmK2ffpLv2",
-"1NS17iag9jJgTHD1VXjvLCEnZuQ3rJDE9L",
+"FY36Zmi14ZU4XyfYmMdoV9i8cN1po3qyr9",
 "ABnLTmg",
 "3SEo3LWLoPntC",
 "3EFU7m",

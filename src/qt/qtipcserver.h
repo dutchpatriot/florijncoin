@@ -1,8 +1,8 @@
 #ifndef QTIPCSERVER_H
 #define QTIPCSERVER_H
 
-// Define Bitcoin-Qt message queue name
-#define BITCOINURI_QUEUE_NAME "BitcoinURI"
+// Define FlorijnCoin-Qt message queue name
+#define BITCOINURI_QUEUE_NAME "FlorijnCoinURI"
 
 void ipcInit();
 

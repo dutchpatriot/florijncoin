@@ -88,7 +88,7 @@ OptionsDialog::OptionsDialog(QWidget *parent) :
         }
     }
 
-    ui->unit->setModel(new BitcoinUnits(this));
+    ui->unit->setModel(new FlorijnCoinUnits(this));
 
     connect(ui->connectSocks, SIGNAL(clicked(bool)), this, SLOT(showRestartWarning_Proxy()));
     connect(ui->lang, SIGNAL(activated(int)), this, SLOT(showRestartWarning_Lang()));

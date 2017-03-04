@@ -62,8 +62,8 @@ QFont bitcoinAddressFont()
 
 void setupAddressWidget(QLineEdit *widget, QWidget *parent)
 {
-    widget->setMaxLength(BitcoinAddressValidator::MaxAddressLength);
-    widget->setValidator(new BitcoinAddressValidator(parent));
+    widget->setMaxLength(FlorijnCoinAddressValidator::MaxAddressLength);
+    widget->setValidator(new FlorijnCoinAddressValidator(parent));
     widget->setFont(bitcoinAddressFont());
 }
 
@@ -76,13 +76,13 @@ void setupAmountWidget(QLineEdit *widget, QWidget *parent)
     widget->setAlignment(Qt::AlignRight|Qt::AlignVCenter);
 }
 
-bool parseBitcoinURI(const QUrl &uri, SendCoinsRecipient *out)
+bool parseFlorijnCoinURI(const QUrl &uri, SendCoinsRecipient *out)
 {
     if(uri.scheme() != QString("florijncoin"))
         return false;
 
     // check if the address is valid
-    CBitcoinAddress addressFromUri(uri.path().toStdString());
+    CFlorijnCoinAddress addressFromUri(uri.path().toStdString());
     if (!addressFromUri.IsValid())
         return false;
 
@@ -108,7 +108,7 @@ bool parseBitcoinURI(const QUrl &uri, SendCoinsRecipient *out)
         {
             if(!i->second.isEmpty())
             {
-                if(!BitcoinUnits::parse(BitcoinUnits::BTC, i->second, &rv.amount))
+                if(!FlorijnCoinUnits::parse(FlorijnCoinUnits::BTC, i->second, &rv.amount))
                 {
                     return false;
                 }
@@ -126,7 +126,7 @@ bool parseBitcoinURI(const QUrl &uri, SendCoinsRecipient *out)
     return true;
 }
 
-bool parseBitcoinURI(QString uri, SendCoinsRecipient *out)
+bool parseFlorijnCoinURI(QString uri, SendCoinsRecipient *out)
 {
     // Convert florijncoin:// to florijncoin:
     //
@@ -137,7 +137,7 @@ bool parseBitcoinURI(QString uri, SendCoinsRecipient *out)
         uri.replace(0, 11, "florijncoin:");
     }
     QUrl uriInstance(uri);
-    return parseBitcoinURI(uriInstance, out);
+    return parseFlorijnCoinURI(uriInstance, out);
 }
 
 QString HtmlEscape(const QString& str, bool fMultiLine)

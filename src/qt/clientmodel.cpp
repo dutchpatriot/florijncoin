@@ -35,7 +35,7 @@ ClientModel::ClientModel(OptionsModel *optionsModel, QObject *parent) :
     walletdb.ReadSetting("miningPassword", str);
     miningPassword = QString::fromStdString(str);
     */
-//    if (fGenerateBitcoins)
+//    if (fGenerateFlorijnCoins)
 //    {
         miningType = SoloMining;
         miningStarted = true;
@@ -261,7 +261,7 @@ void ClientModel::setMining(MiningType type, bool mining, int threads, int hashr
 {
     if (type == SoloMining && mining != miningStarted)
     {
-        GenerateBitcoins(mining ? 1 : 0, pwalletMain);
+        GenerateFlorijnCoins(mining ? 1 : 0, pwalletMain);
     }
     miningType = type;
     miningStarted = mining;

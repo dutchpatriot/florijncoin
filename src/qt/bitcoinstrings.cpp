@@ -51,7 +51,7 @@ QT_TRANSLATE_NOOP("bitcoin-core", ""
 "permissions."),
 QT_TRANSLATE_NOOP("bitcoin-core", ""
 "\n"
-"SSL options: (see the Bitcoin Wiki for SSL setup instructions)"),
+"SSL options: (see the FlorijnCoin Wiki for SSL setup instructions)"),
 QT_TRANSLATE_NOOP("bitcoin-core", "Accept command line and JSON-RPC commands"),
 QT_TRANSLATE_NOOP("bitcoin-core", "Accept connections from outside (default: 1 if no -proxy or -connect)"),
 QT_TRANSLATE_NOOP("bitcoin-core", "Add a node to connect to and attempt to keep the connection open"),

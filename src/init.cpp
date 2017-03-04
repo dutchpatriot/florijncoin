@@ -1,5 +1,5 @@
 // Copyright (c) 2009-2010 Satoshi Nakamoto
-// Copyright (c) 2009-2012 The Bitcoin developers
+// Copyright (c) 2009-2012 The FlorijnCoin developers
 // Copyright (c) 2011-2012 Litecoin Developers
 // Distributed under the MIT/X11 software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
@@ -83,7 +83,7 @@ void Shutdown(void* parg)
         printf("florijncoin exited\n\n");
         fExit = true;
 #ifndef QT_GUI
-        // ensure non UI client get's exited here, but let Bitcoin-Qt reach return 0; in bitcoin.cpp
+        // ensure non UI client get's exited here, but let FlorijnCoin-Qt reach return 0; in bitcoin.cpp
         exit(0);
 #endif
     }
@@ -281,7 +281,7 @@ std::string HelpMessage()
         "  -?                     " + _("This help message") + "\n";
 
     strUsage += string() +
-        _("\nSSL options: (see the Bitcoin Wiki for SSL setup instructions)") + "\n" +
+        _("\nSSL options: (see the FlorijnCoin Wiki for SSL setup instructions)") + "\n" +
         "  -rpcssl                                  " + _("Use OpenSSL (https) for JSON-RPC connections") + "\n" +
         "  -rpcsslcertificatechainfile=<file.cert>  " + _("Server certificate file (default: server.cert)") + "\n" +
         "  -rpcsslprivatekeyfile=<file.pem>         " + _("Server private key (default: server.pem)") + "\n" +

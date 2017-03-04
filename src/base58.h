@@ -1,5 +1,5 @@
 // Copyright (c) 2009-2010 Satoshi Nakamoto
-// Copyright (c) 2009-2012 The Bitcoin Developers
+// Copyright (c) 2009-2012 The FlorijnCoin Developers
 // Copyright (c) 2011-2012 Litecoin Developers
 // Distributed under the MIT/X11 software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
@@ -254,30 +254,30 @@ public:
     bool operator> (const CBase58Data& b58) const { return CompareTo(b58) >  0; }
 };
 
-/** base58-encoded Bitcoin addresses.
+/** base58-encoded FlorijnCoin addresses.
  * Public-key-hash-addresses have version 0 (or 111 testnet).
  * The data vector contains RIPEMD160(SHA256(pubkey)), where pubkey is the serialized public key.
  * Script-hash-addresses have version 5 (or 196 testnet).
  * The data vector contains RIPEMD160(SHA256(cscript)), where cscript is the serialized redemption script.
  */
-class CBitcoinAddress;
-class CBitcoinAddressVisitor : public boost::static_visitor<bool>
+class CFlorijnCoinAddress;
+class CFlorijnCoinAddressVisitor : public boost::static_visitor<bool>
 {
 private:
-    CBitcoinAddress *addr;
+    CFlorijnCoinAddress *addr;
 public:
-    CBitcoinAddressVisitor(CBitcoinAddress *addrIn) : addr(addrIn) { }
+    CFlorijnCoinAddressVisitor(CFlorijnCoinAddress *addrIn) : addr(addrIn) { }
     bool operator()(const CKeyID &id) const;
     bool operator()(const CScriptID &id) const;
     bool operator()(const CNoDestination &no) const;
 };
 
-class CBitcoinAddress : public CBase58Data
+class CFlorijnCoinAddress : public CBase58Data
 {
 public:
     enum
     {
-        PUBKEY_ADDRESS = 36, //Set the address first bit here
+        PUBKEY_ADDRESS = 36, // addresses start with F
         SCRIPT_ADDRESS = 5,
         PUBKEY_ADDRESS_TEST = 111,
         SCRIPT_ADDRESS_TEST = 196,
@@ -295,7 +295,7 @@ public:
 
     bool Set(const CTxDestination &dest)
     {
-        return boost::apply_visitor(CBitcoinAddressVisitor(this), dest);
+        return boost::apply_visitor(CFlorijnCoinAddressVisitor(this), dest);
     }
 
     bool IsValid() const
@@ -305,11 +305,11 @@ public:
         switch(nVersion)
         {
             case PUBKEY_ADDRESS:
-                nExpectedSize = 36; // Hash of public key
+                nExpectedSize = 20; // Hash of public key
                 fExpectTestNet = false;
                 break;
             case SCRIPT_ADDRESS:
-                nExpectedSize = 36; // Hash of CScript
+                nExpectedSize = 20; // Hash of CScript
                 fExpectTestNet = false;
                 break;
 
@@ -328,21 +328,21 @@ public:
         return fExpectTestNet == fTestNet && vchData.size() == nExpectedSize;
     }
 
-    CBitcoinAddress()
+    CFlorijnCoinAddress()
     {
     }
 
-    CBitcoinAddress(const CTxDestination &dest)
+    CFlorijnCoinAddress(const CTxDestination &dest)
     {
         Set(dest);
     }
 
-    CBitcoinAddress(const std::string& strAddress)
+    CFlorijnCoinAddress(const std::string& strAddress)
     {
         SetString(strAddress);
     }
 
-    CBitcoinAddress(const char* pszAddress)
+    CFlorijnCoinAddress(const char* pszAddress)
     {
         SetString(pszAddress);
     }
@@ -395,18 +395,18 @@ public:
     }
 };
 
-bool inline CBitcoinAddressVisitor::operator()(const CKeyID &id) const         { return addr->Set(id); }
-bool inline CBitcoinAddressVisitor::operator()(const CScriptID &id) const      { return addr->Set(id); }
-bool inline CBitcoinAddressVisitor::operator()(const CNoDestination &id) const { return false; }
+bool inline CFlorijnCoinAddressVisitor::operator()(const CKeyID &id) const         { return addr->Set(id); }
+bool inline CFlorijnCoinAddressVisitor::operator()(const CScriptID &id) const      { return addr->Set(id); }
+bool inline CFlorijnCoinAddressVisitor::operator()(const CNoDestination &id) const { return false; }
 
 /** A base58-encoded secret key */
-class CBitcoinSecret : public CBase58Data
+class CFlorijnCoinSecret : public CBase58Data
 {
 public:
     enum
     {
-        PRIVKEY_ADDRESS = CBitcoinAddress::PUBKEY_ADDRESS + 128,
-        PRIVKEY_ADDRESS_TEST = CBitcoinAddress::PUBKEY_ADDRESS_TEST + 128,
+        PRIVKEY_ADDRESS = CFlorijnCoinAddress::PUBKEY_ADDRESS + 128,
+        PRIVKEY_ADDRESS_TEST = CFlorijnCoinAddress::PUBKEY_ADDRESS_TEST + 128,
     };
 
     void SetSecret(const CSecret& vchSecret, bool fCompressed)
@@ -454,12 +454,12 @@ public:
         return SetString(strSecret.c_str());
     }
 
-    CBitcoinSecret(const CSecret& vchSecret, bool fCompressed)
+    CFlorijnCoinSecret(const CSecret& vchSecret, bool fCompressed)
     {
         SetSecret(vchSecret, fCompressed);
     }
 
-    CBitcoinSecret()
+    CFlorijnCoinSecret()
     {
     }
 };

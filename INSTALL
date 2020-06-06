@@ -1,9 +1,9 @@
-Building FooCoin
+Building Florijncoin
 
-See doc/readme-qt.rst for instructions on building flccoin-qt,
+See doc/readme-qt.rst for instructions on building florijncoin-qt,
 the intended-for-end-users, nice-graphical-interface, reference
-implementation of FooCoin.
+implementation of FlorijnCoin.
 
-See doc/build-*.txt for instructions on building flccoin,
+See doc/build-*.txt for instructions on building florijncoin,
 the intended-for-services, no-graphical-interface, reference
-implementation of FooCoin.
+implementation of FlorijnCoin.
